@@ -1,6 +1,6 @@
-package org.kaczucha.repository;
+package org.rejowska.repository.port;
 
-import org.kaczucha.Client;
+import org.rejowska.domain.Client;
 
 public interface ClientRepository {
     void save(Client client);

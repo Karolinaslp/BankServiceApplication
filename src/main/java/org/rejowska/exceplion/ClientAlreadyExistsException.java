@@ -1,4 +1,4 @@
-package org.kaczucha.service.exceptions;
+package org.rejowska.exceplion;
 
 public class ClientAlreadyExistsException extends Exception {
     public ClientAlreadyExistsException(String message) {

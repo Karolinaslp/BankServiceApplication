@@ -1,8 +1,9 @@
-package org.kaczucha.service;
+package org.rejowska.service;
 
-import org.kaczucha.Client;
-import org.kaczucha.repository.ClientRepository;
-import org.kaczucha.service.exceptions.ClientAlreadyExistsException;
+import org.rejowska.domain.Client;
+import org.rejowska.exceplion.NotSufficientFundException;
+import org.rejowska.repository.port.ClientRepository;
+import org.rejowska.exceplion.ClientAlreadyExistsException;
 
 import java.util.*;
 

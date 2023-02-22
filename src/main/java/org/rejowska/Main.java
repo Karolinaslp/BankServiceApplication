@@ -1,8 +1,9 @@
-package org.kaczucha;
+package org.rejowska;
 
-import org.kaczucha.repository.InMemoryClientRepository;
-import org.kaczucha.service.BankService;
-import org.kaczucha.service.exceptions.ClientAlreadyExistsException;
+import org.rejowska.domain.Client;
+import org.rejowska.repository.InMemoryClientRepository;
+import org.rejowska.service.BankService;
+import org.rejowska.exceplion.ClientAlreadyExistsException;
 
 import java.util.ArrayList;
 import java.util.Scanner;
