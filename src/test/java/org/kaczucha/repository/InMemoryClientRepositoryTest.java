@@ -1,9 +1,9 @@
-package org.rejowska.repository;
+package org.kaczucha.repository;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.rejowska.domain.Client;
+import org.kaczucha.Client;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,13 +1,12 @@
-package org.rejowska.service;
+package org.kaczucha.service;
 
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.rejowska.domain.Client;
-import org.rejowska.exceplion.NotSufficientFundException;
-import org.rejowska.repository.InMemoryClientRepository;
-import org.rejowska.exceplion.ClientAlreadyExistsException;
+import org.kaczucha.Client;
+import org.kaczucha.repository.InMemoryClientRepository;
+import org.kaczucha.service.exceptions.ClientAlreadyExistsException;
 
 import java.util.ArrayList;
 import java.util.NoSuchElementException;

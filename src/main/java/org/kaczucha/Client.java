@@ -1,4 +1,4 @@
-package org.rejowska.domain;
+package org.kaczucha;
 
 import java.util.Objects;
 

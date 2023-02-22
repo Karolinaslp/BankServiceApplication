@@ -1,7 +1,6 @@
-package org.rejowska.repository;
+package org.kaczucha.repository;
 
-import org.rejowska.domain.Client;
-import org.rejowska.repository.port.ClientRepository;
+import org.kaczucha.Client;
 
 import java.util.Locale;
 import java.util.NoSuchElementException;
@@ -47,7 +46,6 @@ public class InMemoryClientRepository implements ClientRepository {
                 return true;
             }
         }
-
         return false;
     }
 }
