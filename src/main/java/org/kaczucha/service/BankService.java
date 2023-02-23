@@ -1,12 +1,13 @@
 package org.kaczucha.service;
 
-import org.kaczucha.Client;
+import org.kaczucha.domain.Client;
 import org.kaczucha.repository.ClientRepository;
-import org.kaczucha.service.exceptions.ClientAlreadyExistsException;
+import org.kaczucha.exceptions.ClientAlreadyExistsException;
+import org.kaczucha.service.port.BankServiceUseCase;
 
 import java.util.*;
 
-public class BankService {
+public class BankService implements BankServiceUseCase {
     private final ClientRepository clientRepository;
 
     public BankService(ClientRepository clientRepository) {
@@ -24,10 +25,10 @@ public class BankService {
         if (client.getName() == null) {
             throw new IllegalArgumentException("Name cannot be null");
         }
-        if(client.getBalance() < 0) {
+        if (client.getBalance() < 0) {
             throw new IllegalArgumentException("Balance must be positive");
         }
-        if(clientRepository.clientAlreadyExists(clientEmail)){
+        if (clientRepository.clientAlreadyExists(clientEmail)) {
             throw new ClientAlreadyExistsException("Client with following email: %s already exist".formatted(clientEmail));
         }
 
@@ -36,19 +37,7 @@ public class BankService {
 
 
     public Client findByEmail(String email) {
-        return clientRepository.findByEmail(email.toLowerCase(Locale.ROOT));
-        //  public Client findByEmail(String email) {
-//            if (!emailExists(clients, email)) {
-//                throw new NoSuchElementException("Email has not been found!");
-//            } else {
-//                return clientSet
-//                        .stream()
-//                        .filter(client -> Objects.equals(client.getEmail(), email.toLowerCase()))
-//                        .findFirst()
-//                        .get();
-//            }
-//        }
-
+        return clientRepository.findByEmail(email.toLowerCase());
     }
 
     public void transfer(String fromEmail, String toEmail, double amount) {
@@ -66,7 +55,7 @@ public class BankService {
         }
     }
 
-    public void withdraw(final String email, final double amount) {
+    public void withdraw(String email, double amount) {
         validateAmount(amount);
         if (Objects.isNull(email)) {
             throw new IllegalArgumentException("Email can't be null");
@@ -80,7 +69,7 @@ public class BankService {
         client.setBalance(newBalance);
     }
 
-    private void validateAmount(double amount) {
+    public void validateAmount(double amount) {
         if (amount <= 0) {
             throw new IllegalArgumentException("Amount must be positive");
         }

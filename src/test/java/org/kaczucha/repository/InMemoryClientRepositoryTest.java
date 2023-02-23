@@ -3,7 +3,7 @@ package org.kaczucha.repository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.kaczucha.Client;
+import org.kaczucha.domain.Client;
 import java.util.ArrayList;
 import java.util.List;
 

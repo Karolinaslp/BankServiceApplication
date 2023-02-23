@@ -1,6 +1,6 @@
 package org.kaczucha.repository;
 
-import org.kaczucha.Client;
+import org.kaczucha.domain.Client;
 
 import java.util.Locale;
 import java.util.NoSuchElementException;
