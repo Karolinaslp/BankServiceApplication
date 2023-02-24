@@ -2,10 +2,9 @@ package org.kaczucha.repository;
 
 import org.kaczucha.domain.Client;
 
-import java.util.Locale;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
-import java.util.List;
 
 public class InMemoryClientRepository implements ClientRepository {
     private final List<Client> clients;
@@ -24,7 +23,7 @@ public class InMemoryClientRepository implements ClientRepository {
         String emailToLowerCase = email.toLowerCase();
         return clients
                 .stream()
-                .filter(client -> Objects.equals(client.getEmail().toLowerCase(Locale.ROOT), emailToLowerCase))
+                .filter(client -> Objects.equals(client.getEmail().toLowerCase(), emailToLowerCase))
                 .findFirst()
                 .orElseThrow(() -> new NoSuchElementException("Client with following email: %s not found".formatted(emailToLowerCase)));
     }
@@ -39,13 +38,5 @@ public class InMemoryClientRepository implements ClientRepository {
             throw new IllegalArgumentException("Client with founds on the account cannot be deleted");
         }
         clients.remove(clientToRemove);
-    }
-    public boolean clientAlreadyExists(String email) {
-        for (Client client : clients) {
-            if (email.equals(client.getEmail())) {
-                return true;
-            }
-        }
-        return false;
     }
 }

@@ -1,11 +1,11 @@
 package org.kaczucha;
 
 import org.kaczucha.domain.Client;
-import org.kaczucha.repository.InMemoryClientRepository;
-import org.kaczucha.service.BankService;
 import org.kaczucha.exceptions.ClientAlreadyExistsException;
+import org.kaczucha.repository.ClientRepository;
+import org.kaczucha.repository.JDBCClientRepository;
+import org.kaczucha.service.BankService;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -16,7 +16,7 @@ public class Main {
     }
 
     public void run() {
-        final InMemoryClientRepository repository = new InMemoryClientRepository(new ArrayList<>());
+        final ClientRepository repository = new JDBCClientRepository();
         bankService = new BankService(repository);
 
         try (final Scanner scanner = new Scanner(System.in)) {
@@ -25,13 +25,13 @@ public class Main {
                 System.out.println("2 - find user");
                 System.out.println("3 - exit app");
                 final String next = scanner.next();
-                if(next.equals("1")){
+                if (next.equals("1")) {
                     addUser(scanner);
                 }
-                if(next.equals("2")) {
+                if (next.equals("2")) {
                     printUser(scanner);
                 }
-                if(next.equals("3")) {
+                if (next.equals("3")) {
                     break;
                 }
             }

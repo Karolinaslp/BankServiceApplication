@@ -5,6 +5,7 @@ import org.kaczucha.repository.ClientRepository;
 import org.kaczucha.exceptions.ClientAlreadyExistsException;
 import org.kaczucha.service.port.BankServiceUseCase;
 
+import java.sql.SQLException;
 import java.util.*;
 
 public class BankService implements BankServiceUseCase {
@@ -28,11 +29,14 @@ public class BankService implements BankServiceUseCase {
         if (client.getBalance() < 0) {
             throw new IllegalArgumentException("Balance must be positive");
         }
-        if (clientRepository.clientAlreadyExists(clientEmail)) {
+        if (clientRepository.findByEmail(client.getEmail()) != null){
             throw new ClientAlreadyExistsException("Client with following email: %s already exist".formatted(clientEmail));
         }
-
-        clientRepository.save(client);
+        try {
+            clientRepository.save(client);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
