@@ -1,11 +1,29 @@
 package org.kaczucha.domain;
 
+import jakarta.persistence.*;
+
 import java.util.Objects;
 
+@Entity
+@Table(name = "USERS")
 public class Client {
-   private final String name;
+   @Id
+   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
+   @SequenceGenerator(name = "user_seq", sequenceName = "users_user_id_seq", allocationSize = 1)
+   @Column(name = "USER_ID")
+   private long id;
+
+   @Column(name = "FIRST_NAME")
+   private String name;
+
+   @Column(name = "MAIL")
    private String email;
+
+   @Transient
    private double balance;
+
+   public Client() {
+   }
 
    public Client(String name, String email, double balance) {
       this.name = name;
@@ -17,20 +35,20 @@ public class Client {
       return name;
    }
 
-   public double getBalance() {
-      return balance;
-   }
-
-   public void setBalance(double balance) {
-      this.balance = balance;
-   }
-
    public String getEmail() {
       return email;
    }
 
    public void setEmail(String email) {
       this.email = email;
+   }
+
+   public double getBalance() {
+      return balance;
+   }
+
+   public void setBalance(double balance) {
+      this.balance = balance;
    }
 
    @Override
