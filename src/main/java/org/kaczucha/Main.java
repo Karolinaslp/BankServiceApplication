@@ -1,11 +1,13 @@
 package org.kaczucha;
 
-import org.kaczucha.domain.Client;
+import org.kaczucha.repository.entity.Account;
+import org.kaczucha.repository.entity.Client;
 import org.kaczucha.exceptions.ClientAlreadyExistsException;
 import org.kaczucha.repository.ClientRepository;
 import org.kaczucha.repository.HibernateClientRepository;
 import org.kaczucha.service.BankService;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -51,8 +53,10 @@ public class Main {
         final String email = scanner.next();
         System.out.println("Enter balance");
         final double balance = scanner.nextDouble();
+        final Account account = new Account(balance, "PLN");
+        final List<Account> accounts = List.of(account);
         try {
-            bankService.save(new Client(name, email, balance));
+            bankService.save(new Client(name, email, accounts));
         } catch (ClientAlreadyExistsException e) {
             System.out.println("Client with this email already exist");
         }

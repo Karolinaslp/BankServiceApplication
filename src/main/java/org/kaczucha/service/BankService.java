@@ -1,6 +1,6 @@
 package org.kaczucha.service;
 
-import org.kaczucha.domain.Client;
+import org.kaczucha.repository.entity.Client;
 import org.kaczucha.repository.ClientRepository;
 import org.kaczucha.exceptions.ClientAlreadyExistsException;
 import org.kaczucha.service.port.BankServiceUseCase;
