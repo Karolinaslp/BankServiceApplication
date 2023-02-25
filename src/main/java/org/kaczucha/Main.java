@@ -3,7 +3,7 @@ package org.kaczucha;
 import org.kaczucha.domain.Client;
 import org.kaczucha.exceptions.ClientAlreadyExistsException;
 import org.kaczucha.repository.ClientRepository;
-import org.kaczucha.repository.JDBCClientRepository;
+import org.kaczucha.repository.HibernateClientRepository;
 import org.kaczucha.service.BankService;
 
 import java.util.Scanner;
@@ -16,7 +16,7 @@ public class Main {
     }
 
     public void run() {
-        final ClientRepository repository = new JDBCClientRepository();
+        final ClientRepository repository = new HibernateClientRepository();
         bankService = new BankService(repository);
 
         try (final Scanner scanner = new Scanner(System.in)) {
