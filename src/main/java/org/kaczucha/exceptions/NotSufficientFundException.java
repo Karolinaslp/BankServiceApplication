@@ -1,4 +1,4 @@
-package org.kaczucha.service;
+package org.kaczucha.exceptions;
 
 public class NotSufficientFundException extends RuntimeException {
     public NotSufficientFundException(String message) {

@@ -1,4 +1,4 @@
-package org.kaczucha.repository.entity;
+package org.kaczucha.domain;
 
 import jakarta.persistence.*;
 import lombok.Data;

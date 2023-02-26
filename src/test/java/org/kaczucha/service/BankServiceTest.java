@@ -4,9 +4,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.kaczucha.exceptions.ClientAlreadyExistsException;
+import org.kaczucha.exceptions.NotSufficientFundException;
 import org.kaczucha.repository.ClientRepository;
-import org.kaczucha.repository.entity.Account;
-import org.kaczucha.repository.entity.Client;
+import org.kaczucha.domain.Account;
+import org.kaczucha.domain.Client;
 
 import java.sql.SQLException;
 import java.util.NoSuchElementException;
@@ -14,7 +15,6 @@ import java.util.NoSuchElementException;
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
-
 public class BankServiceTest {
     private BankService service;
     private ClientRepository repository;
@@ -75,8 +75,8 @@ public class BankServiceTest {
         //When
         service.transfer(emailFrom, emailTo, amount);
         //Then
-        final Client expectedFromClient = new Client("Alek", emailFrom, singletonList(new Account(0, "PLN")));
-        final Client expectedToClient = new Client("Bartek", emailTo, singletonList(new Account(1500, "PLN")));
+//        final Client expectedFromClient = new Client("Alek", emailFrom, singletonList(new Account(0, "PLN")));
+//        final Client expectedToClient = new Client("Bartek", emailTo, singletonList(new Account(1500, "PLN")));
 
         verify(repository).save(clientFrom);
         verify(repository).save(clientTo);
@@ -346,4 +346,3 @@ public class BankServiceTest {
         );
     }
 }
-
