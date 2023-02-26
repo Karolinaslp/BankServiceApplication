@@ -8,7 +8,7 @@ import java.io.File;
 public class HibernateUtil {
     private static final SessionFactory sessionFactory = buildSessionFactory();
 
-    private static final SessionFactory buildSessionFactory() {
+    private static SessionFactory buildSessionFactory() {
         try {
             File configFile = new File("src\\main\\resources\\hibernate.cfg.xml");
             return new Configuration().configure(configFile).buildSessionFactory();
