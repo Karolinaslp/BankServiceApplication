@@ -29,7 +29,7 @@ public class BankService implements BankServiceUseCase {
         if (client.getBalance() < 0) {
             throw new IllegalArgumentException("Balance must be positive");
         }
-        if (clientRepository.findByEmail(client.getEmail()) != null){
+        if (clientRepository.findByEmail(client.getEmail()) != null) {
             throw new ClientAlreadyExistsException("Client with following email: %s already exist".formatted(clientEmail));
         }
         try {
@@ -46,16 +46,28 @@ public class BankService implements BankServiceUseCase {
 
     public void transfer(String fromEmail, String toEmail, double amount) {
         validateAmount(amount);
+
         if (fromEmail.equals(toEmail)) {
-            throw new IllegalArgumentException("fromEmail and toEmail cant be equal");
+            throw new IllegalArgumentException("fromEmail and toEmail can't be equal");
         }
+        if (clientRepository.findByEmail(fromEmail) == null && clientRepository.findByEmail(toEmail) == null) {
+            throw new NoSuchElementException("Client with this email do not exist");
+        }
+
         Client fromClient = findByEmail(fromEmail);
         Client toClient = findByEmail(toEmail);
+
         if (fromClient.getBalance() - amount >= 0) {
             fromClient.setBalance(fromClient.getBalance() - amount);
             toClient.setBalance(toClient.getBalance() + amount);
         } else {
             throw new NotSufficientFundException("not enough funds");
+        }
+        try {
+            clientRepository.save(fromClient);
+            clientRepository.save(toClient);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -64,13 +76,20 @@ public class BankService implements BankServiceUseCase {
         if (Objects.isNull(email)) {
             throw new IllegalArgumentException("Email can't be null");
         }
-        final String lowerCaseEmail = email.toLowerCase();
-        final Client client = findByEmail(lowerCaseEmail);
+        if (clientRepository.findByEmail(email) == null) {
+            throw new NoSuchElementException("Client with this email do not exist");
+        }
+        Client client = clientRepository.findByEmail(email);
         if (amount > client.getBalance()) {
             throw new NotSufficientFundException("Balance must be equal or higher then amount");
         }
         final double newBalance = client.getBalance() - amount;
         client.setBalance(newBalance);
+        try {
+            clientRepository.save(client);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void validateAmount(double amount) {
@@ -78,6 +97,4 @@ public class BankService implements BankServiceUseCase {
             throw new IllegalArgumentException("Amount must be positive");
         }
     }
-
-
 }

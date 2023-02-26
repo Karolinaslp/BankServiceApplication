@@ -23,7 +23,7 @@ public class HibernateClientRepository implements ClientRepository {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query<Client> query = session.createQuery("FROM Client WHERE email=:email", Client.class);
-        query.setParameter("email", email);
+        query.setParameter("email", email.toLowerCase());
         final Client client = query.uniqueResult();
         session.getTransaction().commit();
         session.close();
