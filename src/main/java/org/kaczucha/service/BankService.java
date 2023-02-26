@@ -1,17 +1,25 @@
 package org.kaczucha.service;
 
-import org.kaczucha.repository.entity.Client;
-import org.kaczucha.repository.ClientRepository;
+import org.kaczucha.annotation.HibernateRepository;
 import org.kaczucha.exceptions.ClientAlreadyExistsException;
+import org.kaczucha.exceptions.NotSufficientFundException;
+import org.kaczucha.repository.ClientRepository;
+import org.kaczucha.domain.Client;
 import org.kaczucha.service.port.BankServiceUseCase;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
-import java.util.*;
+import java.util.Locale;
+import java.util.NoSuchElementException;
+import java.util.Objects;
 
+@Service
 public class BankService implements BankServiceUseCase {
     private final ClientRepository clientRepository;
 
-    public BankService(ClientRepository clientRepository) {
+    @Autowired
+    public BankService(@HibernateRepository ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
     }
 

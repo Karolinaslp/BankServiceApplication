@@ -1,26 +1,32 @@
 package org.kaczucha;
 
-import org.kaczucha.repository.entity.Account;
-import org.kaczucha.repository.entity.Client;
 import org.kaczucha.exceptions.ClientAlreadyExistsException;
-import org.kaczucha.repository.ClientRepository;
-import org.kaczucha.repository.HibernateClientRepository;
+import org.kaczucha.domain.Account;
+import org.kaczucha.domain.Client;
 import org.kaczucha.service.BankService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.List;
 import java.util.Scanner;
 
-public class Main {
-    private BankService bankService;
+@SpringBootApplication
+public class BankServiceApplication implements CommandLineRunner {
+    private final BankService bankService;
 
-    public static void main(String[] args) {
-        new Main().run();
+    @Autowired
+    public BankServiceApplication(BankService bankService) {
+        this.bankService = bankService;
     }
 
-    public void run() {
-        final ClientRepository repository = new HibernateClientRepository();
-        bankService = new BankService(repository);
+    public static void main(String[] args) {
+        SpringApplication.run(BankServiceApplication.class, args);
+    }
 
+    @Override
+    public void run(String... args) {
         try (final Scanner scanner = new Scanner(System.in)) {
             while (true) {
                 System.out.println("1 - add user");

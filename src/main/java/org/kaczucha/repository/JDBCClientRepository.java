@@ -1,9 +1,13 @@
 package org.kaczucha.repository;
 
-import org.kaczucha.repository.entity.Client;
+import org.kaczucha.annotation.JDBCRepository;
+import org.kaczucha.domain.Client;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 
+@Repository
+@JDBCRepository
 public class JDBCClientRepository implements ClientRepository {
     public static final String USER = "postgres";
     public static final String PASSWORD = "qwerty";

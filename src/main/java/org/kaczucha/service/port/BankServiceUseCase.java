@@ -1,7 +1,7 @@
 package org.kaczucha.service.port;
 
 import org.kaczucha.exceptions.ClientAlreadyExistsException;
-import org.kaczucha.repository.entity.Client;
+import org.kaczucha.domain.Client;
 
 public interface BankServiceUseCase {
     void save(Client client) throws ClientAlreadyExistsException;

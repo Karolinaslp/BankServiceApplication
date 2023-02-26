@@ -1,6 +1,6 @@
 package org.kaczucha.repository;
 
-import org.kaczucha.repository.entity.Client;
+import org.kaczucha.domain.Client;
 
 import java.sql.SQLException;
 

@@ -1,11 +1,13 @@
 package org.kaczucha.repository;
 
-import org.kaczucha.repository.entity.Client;
+import org.kaczucha.domain.Client;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
+@Repository
 public class InMemoryClientRepository implements ClientRepository {
     private final List<Client> clients;
 
