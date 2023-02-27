@@ -1,25 +1,23 @@
 package org.kaczucha.service;
 
-import org.kaczucha.annotation.HibernateRepository;
+import org.kaczucha.domain.Client;
 import org.kaczucha.exceptions.ClientAlreadyExistsException;
 import org.kaczucha.exceptions.NotSufficientFundException;
-import org.kaczucha.repository.ClientRepository;
-import org.kaczucha.domain.Client;
+import org.kaczucha.repository.ClientJpaRepository;
 import org.kaczucha.service.port.BankServiceUseCase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
 import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
 @Service
 public class BankService implements BankServiceUseCase {
-    private final ClientRepository clientRepository;
+    private final ClientJpaRepository clientRepository;
 
     @Autowired
-    public BankService(@HibernateRepository ClientRepository clientRepository) {
+    public BankService(ClientJpaRepository clientRepository) {
         this.clientRepository = clientRepository;
     }
 
@@ -40,11 +38,7 @@ public class BankService implements BankServiceUseCase {
         if (clientRepository.findByEmail(client.getEmail()) != null) {
             throw new ClientAlreadyExistsException("Client with following email: %s already exist".formatted(clientEmail));
         }
-        try {
             clientRepository.save(client);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 
 
@@ -71,12 +65,8 @@ public class BankService implements BankServiceUseCase {
         } else {
             throw new NotSufficientFundException("not enough funds");
         }
-        try {
             clientRepository.save(fromClient);
             clientRepository.save(toClient);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public void withdraw(String email, double amount) {
@@ -93,16 +83,17 @@ public class BankService implements BankServiceUseCase {
         }
         final double newBalance = client.getBalance() - amount;
         client.setBalance(newBalance);
-        try {
             clientRepository.save(client);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public void validateAmount(double amount) {
         if (amount <= 0) {
             throw new IllegalArgumentException("Amount must be positive");
         }
+    }
+
+    @Override
+    public void deleteByEmail(String email) {
+        clientRepository.deleteByEmail(email);
     }
 }
