@@ -13,4 +13,6 @@ public interface BankServiceUseCase {
     void withdraw(String email, double amount);
 
     void validateAmount(double amount);
+
+    void deleteByEmail(String email);
 }

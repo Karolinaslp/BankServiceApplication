@@ -3,13 +3,12 @@ package org.kaczucha.service;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.kaczucha.exceptions.ClientAlreadyExistsException;
-import org.kaczucha.exceptions.NotSufficientFundException;
-import org.kaczucha.repository.ClientRepository;
 import org.kaczucha.domain.Account;
 import org.kaczucha.domain.Client;
+import org.kaczucha.exceptions.ClientAlreadyExistsException;
+import org.kaczucha.exceptions.NotSufficientFundException;
+import org.kaczucha.repository.ClientJpaRepository;
 
-import java.sql.SQLException;
 import java.util.NoSuchElementException;
 
 import static java.util.Collections.singletonList;
@@ -17,16 +16,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 public class BankServiceTest {
     private BankService service;
-    private ClientRepository repository;
+    private ClientJpaRepository repository;
 
     @BeforeEach
     public void setup() {
-        repository = mock(ClientRepository.class);
+        repository = mock(ClientJpaRepository.class);
         service = new BankService(repository);
     }
 
     @Test
-    public void transfer_allParamsOk_foundsTransferred() throws SQLException {
+    public void transfer_allParamsOk_foundsTransferred() {
         //Given
         final String emailFrom = "alek@pl";
         final String emailTo = "bartek@pl";
@@ -62,7 +61,7 @@ public class BankServiceTest {
     }
 
     @Test
-    public void transfer_allFunds_fundsTransferred() throws SQLException {
+    public void transfer_allFunds_fundsTransferred() {
         //Given
         final String emailFrom = "alek@pl";
         final String emailTo = "bartek@pl";
@@ -161,7 +160,7 @@ public class BankServiceTest {
         Client client1 = new Client("Pawel", "a@a", singletonList(new Account(100, "PLN")));
         when(repository.findByEmail(email)).thenReturn(client);
         //When/Then
-        Assertions.assertThrows(ClientAlreadyExistsException.class, () -> service.save(client)
+        Assertions.assertThrows(ClientAlreadyExistsException.class, () -> service.save(client1)
         );
     }
 
@@ -169,7 +168,7 @@ public class BankServiceTest {
      * Ignore case when saving the client
      */
     @Test
-    public void save_clientWithUpperCaseEmailOk_clientSaved() throws ClientAlreadyExistsException, SQLException {
+    public void save_clientWithUpperCaseEmailOk_clientSaved() throws ClientAlreadyExistsException {
         //Given
         String email = "UPPER@eMail.PL";
         Client client = new Client("Alek", email, singletonList(new Account(100, "PLN")));
@@ -186,7 +185,7 @@ public class BankServiceTest {
      * Throw exception when try to save already existing client
      */
     @Test
-    public void save_alreadyExistingClient_throwClientAlreadyExistsException() throws ClientAlreadyExistsException {
+    public void save_alreadyExistingClient_throwClientAlreadyExistsException()  {
         //Given
         String email = "alek@pl";
         Client client = new Client("Alek", email, singletonList(new Account(100, "PLN")));
@@ -248,7 +247,7 @@ public class BankServiceTest {
 
 
     @Test
-    public void withdraw_correctAmount_balanceChangedCorrectly() throws SQLException {
+    public void withdraw_correctAmount_balanceChangedCorrectly()  {
         //Given
         final String email = "alek@gmail.con";
         final Client client = new Client("Alek", email, singletonList(new Account(100, "PLN")));
@@ -261,7 +260,7 @@ public class BankServiceTest {
     }
 
     @Test
-    public void withdraw_correctFloatingPointAmount_balanceChangedCorrectly() throws SQLException {
+    public void withdraw_correctFloatingPointAmount_balanceChangedCorrectly() {
         //Given
         final String email = "alek@gmail.con";
         final Client client = new Client("Alek", email, singletonList(new Account(100, "PLN")));
@@ -274,7 +273,7 @@ public class BankServiceTest {
     }
 
     @Test
-    public void withdraw_allBalance_balanceSetToZero() throws SQLException {
+    public void withdraw_allBalance_balanceSetToZero() {
         //Given
         final String email = "alek@gmail.con";
         final Client client = new Client("Alek", email, singletonList(new Account(100, "PLN")));

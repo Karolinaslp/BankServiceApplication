@@ -22,7 +22,7 @@ public class Client {
     @Column(name = "MAIL")
     private String email;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "USER_ID")
     private List<Account> accounts;
 

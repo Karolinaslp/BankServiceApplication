@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    username: "postgres"
+    password: "qwerty"
+    url: "jdbc:postgresql://127.0.0.1:5432/test"
+    driver-class: "org.postgresql.Driver"
+  jpa:
+    show-sql: false
