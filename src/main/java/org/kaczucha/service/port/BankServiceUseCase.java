@@ -1,10 +1,12 @@
 package org.kaczucha.service.port;
 
-import org.kaczucha.exceptions.ClientAlreadyExistsException;
 import org.kaczucha.domain.Client;
+import org.kaczucha.exceptions.ClientAlreadyExistsException;
+import org.kaczucha.web.dto.ClientRequest;
+import org.kaczucha.web.dto.ClientResponse;
 
 public interface BankServiceUseCase {
-    void save(Client client) throws ClientAlreadyExistsException;
+    void save(ClientRequest clientRequest) throws ClientAlreadyExistsException;
 
     Client findByEmail(String email);
 
@@ -15,4 +17,6 @@ public interface BankServiceUseCase {
     void validateAmount(double amount);
 
     void deleteByEmail(String email);
+
+    ClientResponse findResponseByEmail(String email);
 }

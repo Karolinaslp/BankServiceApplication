@@ -7,21 +7,24 @@ import org.kaczucha.domain.Account;
 import org.kaczucha.domain.Client;
 import org.kaczucha.exceptions.ClientAlreadyExistsException;
 import org.kaczucha.exceptions.NotSufficientFundException;
-import org.kaczucha.repository.ClientJpaRepository;
+import org.kaczucha.jpa.ClientJpaRepository;
 
 import java.util.NoSuchElementException;
 
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
+
 public class BankServiceTest {
+
     private BankService service;
     private ClientJpaRepository repository;
 
     @BeforeEach
     public void setup() {
         repository = mock(ClientJpaRepository.class);
-        service = new BankService(repository);
+        ClientMapper mapper = mock(ClientMapper.class);
+        service = new BankService(repository, mapper);
     }
 
     @Test
@@ -41,8 +44,8 @@ public class BankServiceTest {
                 singletonList(new Account(500, "PLN"))
         );
         final double amount = 100;
-        when(repository.findByEmail(emailFrom)).thenReturn(clientFrom);
-        when(repository.findByEmail(emailTo)).thenReturn(clientTo);
+        when(repository.findByEmailIgnoreCase(emailFrom)).thenReturn(clientFrom);
+        when(repository.findByEmailIgnoreCase(emailTo)).thenReturn(clientTo);
         //When
         service.transfer(emailFrom, emailTo, amount);
         //Then
@@ -68,8 +71,8 @@ public class BankServiceTest {
         final Client clientFrom = new Client("Alek", emailFrom, singletonList(new Account(1000, "PLN")));
         final Client clientTo = new Client("Bartek", emailTo, singletonList(new Account(500, "PLN")));
         final double amount = 1000;
-        when(repository.findByEmail(emailFrom)).thenReturn(clientFrom);
-        when(repository.findByEmail(emailTo)).thenReturn(clientTo);
+        when(repository.findByEmailIgnoreCase(emailFrom)).thenReturn(clientFrom);
+        when(repository.findByEmailIgnoreCase(emailTo)).thenReturn(clientTo);
 
         //When
         service.transfer(emailFrom, emailTo, amount);
@@ -93,8 +96,8 @@ public class BankServiceTest {
         final Client clientTo = new Client("Bartek", emailTo, singletonList(new Account(500, "PLN")));
 
         final double amount = 1000;
-        when(repository.findByEmail(emailFrom)).thenReturn(clientFrom);
-        when(repository.findByEmail(emailTo)).thenReturn(clientTo);
+        when(repository.findByEmailIgnoreCase(emailFrom)).thenReturn(clientFrom);
+        when(repository.findByEmailIgnoreCase(emailTo)).thenReturn(clientTo);
         //When/Then
 
         // never().verify(repository.save(clientFrom));
@@ -158,7 +161,7 @@ public class BankServiceTest {
         String email = "a@a";
         Client client = new Client("Bartek", email, singletonList(new Account(100, "PLN")));
         Client client1 = new Client("Pawel", "a@a", singletonList(new Account(100, "PLN")));
-        when(repository.findByEmail(email)).thenReturn(client);
+        when(repository.findByEmailIgnoreCase(email)).thenReturn(client);
         //When/Then
         Assertions.assertThrows(ClientAlreadyExistsException.class, () -> service.save(client1)
         );
@@ -172,7 +175,7 @@ public class BankServiceTest {
         //Given
         String email = "UPPER@eMail.PL";
         Client client = new Client("Alek", email, singletonList(new Account(100, "PLN")));
-        when(repository.findByEmail(email)).thenReturn(client);
+        when(repository.findByEmailIgnoreCase(email)).thenReturn(client);
         //When
         service.save(client);
         //Then
@@ -185,12 +188,12 @@ public class BankServiceTest {
      * Throw exception when try to save already existing client
      */
     @Test
-    public void save_alreadyExistingClient_throwClientAlreadyExistsException()  {
+    public void save_alreadyExistingClient_throwClientAlreadyExistsException() {
         //Given
         String email = "alek@pl";
         Client client = new Client("Alek", email, singletonList(new Account(100, "PLN")));
         Client client2 = new Client("Alek", "alek@pl", singletonList(new Account(100, "PLN")));
-        when(repository.findByEmail(email)).thenReturn(client);
+        when(repository.findByEmailIgnoreCase(email)).thenReturn(client);
         //When/Then
         Assertions.assertThrows(ClientAlreadyExistsException.class, () -> service.save(client2));
     }
@@ -237,21 +240,21 @@ public class BankServiceTest {
     public void findByEmail_upperCaseInputEmailOk_clientFound() {
         //Given
         String email = "alek@pl";
-        Client expectedClient = new Client("Alek", email, singletonList(new Account(100, "PLN")));
-        when(repository.findByEmail(email)).thenReturn(expectedClient);
+        Client client = new Client("Alek", email, singletonList(new Account(100, "PLN")));
+        when(repository.findByEmailIgnoreCase(email)).thenReturn(client);
         //When
         Client actualClient = service.findByEmail("ALEK@PL");
         //Then
-        assertEquals(expectedClient, actualClient);
+        assertEquals(client, actualClient);
     }
 
 
     @Test
-    public void withdraw_correctAmount_balanceChangedCorrectly()  {
+    public void withdraw_correctAmount_balanceChangedCorrectly() {
         //Given
         final String email = "alek@gmail.con";
         final Client client = new Client("Alek", email, singletonList(new Account(100, "PLN")));
-        when(repository.findByEmail(email)).thenReturn(client);
+        when(repository.findByEmailIgnoreCase(email)).thenReturn(client);
         //When
         service.withdraw(email, 50);
         //Then
@@ -264,7 +267,7 @@ public class BankServiceTest {
         //Given
         final String email = "alek@gmail.con";
         final Client client = new Client("Alek", email, singletonList(new Account(100, "PLN")));
-        when(repository.findByEmail(email)).thenReturn(client);
+        when(repository.findByEmailIgnoreCase(email)).thenReturn(client);
         //When
         service.withdraw(email, 50.5);
         //Then
@@ -277,7 +280,7 @@ public class BankServiceTest {
         //Given
         final String email = "alek@gmail.con";
         final Client client = new Client("Alek", email, singletonList(new Account(100, "PLN")));
-        when(repository.findByEmail(email)).thenReturn(client);
+        when(repository.findByEmailIgnoreCase(email)).thenReturn(client);
 
         //When
         service.withdraw(email, 100);
@@ -315,7 +318,7 @@ public class BankServiceTest {
         //Given
         final String email = "alek@gmail.con";
         final Client client = new Client("Alek", email, singletonList(new Account(100, "PLN")));
-        when(repository.findByEmail(email)).thenReturn(client);
+        when(repository.findByEmailIgnoreCase(email)).thenReturn(client);
         final int amount = 1000;
         //When/Then
         Assertions.assertThrows(NotSufficientFundException.class,

@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "ACCOUNTS")
 @Data
 @NoArgsConstructor
-
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_seq")
