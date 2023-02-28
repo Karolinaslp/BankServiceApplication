@@ -1,10 +1,10 @@
-package org.kaczucha.web;
+package org.kaczucha.client.web;
 
 import lombok.RequiredArgsConstructor;
 import org.kaczucha.exceptions.ClientAlreadyExistsException;
-import org.kaczucha.service.port.BankServiceUseCase;
-import org.kaczucha.web.dto.ClientRequest;
-import org.kaczucha.web.dto.ClientResponse;
+import org.kaczucha.client.application.port.ClientServiceUseCase;
+import org.kaczucha.client.web.dto.ClientRequest;
+import org.kaczucha.client.web.dto.ClientResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping
-public class BankController {
-    private final BankServiceUseCase service;
+public class ClientController {
+    private final ClientServiceUseCase service;
 
     @GetMapping(path = "/api/user")
     public ResponseEntity<ClientResponse> getByEmail(@RequestParam String email) {

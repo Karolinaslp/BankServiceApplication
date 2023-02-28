@@ -1,4 +1,4 @@
-package org.kaczucha.web.dto;
+package org.kaczucha.client.web.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

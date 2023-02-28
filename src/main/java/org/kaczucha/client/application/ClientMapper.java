@@ -1,9 +1,9 @@
-package org.kaczucha.service;
+package org.kaczucha.client.application;
 
-import org.kaczucha.domain.Account;
-import org.kaczucha.domain.Client;
-import org.kaczucha.web.dto.ClientRequest;
-import org.kaczucha.web.dto.ClientResponse;
+import org.kaczucha.account.domain.Account;
+import org.kaczucha.client.domain.Client;
+import org.kaczucha.client.web.dto.ClientRequest;
+import org.kaczucha.client.web.dto.ClientResponse;
 import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;

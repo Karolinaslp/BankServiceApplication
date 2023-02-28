@@ -1,4 +1,4 @@
-package org.kaczucha.web.dto;
+package org.kaczucha.account.web.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ClientRequest {
-    private String name;
-    private String email;
-
+public class AccountRequest {
+    private Long userId;
+    private double balance;
+    private String currency;
 }

@@ -1,10 +1,11 @@
-package org.kaczucha.domain;
+package org.kaczucha.client.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.kaczucha.account.domain.Account;
 
 import java.util.List;
 
@@ -30,22 +31,4 @@ public class Client {
     @JoinColumn(name = "USER_ID")
     private List<Account> accounts;
 
-    public Client(String name, String email, List<Account> accounts) {
-        this.name = name;
-        this.email = email;
-        this.accounts = accounts;
-    }
-
-    public double getBalance() {
-        if (!accounts.isEmpty()) {
-            return accounts.get(0).getBalance();
-        }
-        return 0;
-    }
-
-    public void setBalance(double newBalance) {
-        if (!accounts.isEmpty()) {
-            accounts.get(0).setBalance(newBalance);
-        }
-    }
 }

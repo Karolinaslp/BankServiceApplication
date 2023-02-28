@@ -1,6 +1,6 @@
-package org.kaczucha.jpa;
+package org.kaczucha.client.db;
 
-import org.kaczucha.domain.Client;
+import org.kaczucha.client.domain.Client;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
