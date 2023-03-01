@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
 
 import java.time.OffsetDateTime;
 
@@ -17,7 +16,8 @@ import java.time.OffsetDateTime;
 @Builder
 public class Transfer {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transactions_seq")
+    @SequenceGenerator(name = "transactions_seq", allocationSize = 1)
     @Column(name = "TRANSACTIONS_ID")
     private long id;
 
@@ -26,7 +26,6 @@ public class Transfer {
     @Column(name = "CURRENCY")
     private String currency;
 
-    @CreatedDate
     @Column(name = "TRANSACTION_DATE")
     private OffsetDateTime transactionDate;
 
