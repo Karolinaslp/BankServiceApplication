@@ -8,7 +8,7 @@ public interface AccountServiceUseCase {
 
     AccountResponse findById(long id);
 
-    void transfer(long fromId, long toId, double amount);
+    void transfer(long fromId, long toId, double amount, String currency);
 
     void validateAmount(double amount);
 

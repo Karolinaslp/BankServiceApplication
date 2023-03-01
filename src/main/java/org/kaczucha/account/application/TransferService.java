@@ -15,8 +15,6 @@ public class TransferService implements TransferServiceUseCase {
 
     private final TransferMapper mapper;
 
-    //private final TimeUtils timeUtils;
-
     @Override
     public void createTransfer(TransferRequest request) {
         service.transfer(

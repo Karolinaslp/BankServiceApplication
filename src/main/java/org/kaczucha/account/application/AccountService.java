@@ -16,7 +16,6 @@ import java.util.NoSuchElementException;
 public class AccountService implements AccountServiceUseCase {
     private final AccountJpaRepository repository;
     private final AccountMapper mapper;
-
     @Override
     public void save(final AccountRequest account) {
         Account mappedAccount = mapper.toAccount(account);
@@ -25,7 +24,8 @@ public class AccountService implements AccountServiceUseCase {
 
     @Override
     public AccountResponse findById(final long id) {
-        return repository.findById(id)
+        return repository
+                .findById(id)
                 .map(mapper::toAccountResponse)
                 .orElseThrow(() -> new IllegalArgumentException(String.format("Account with id: %d not found", id)));
     }
@@ -36,14 +36,14 @@ public class AccountService implements AccountServiceUseCase {
     }
 
     @Override
-    public void transfer(long fromAccountId, long toAccountId, double amount) {
+    public void transfer(long fromAccountId, long toAccountId, double amount, String currency) {
         validateAmount(amount);
 
         if (fromAccountId == toAccountId) {
             throw new IllegalArgumentException("Transfer to the same account if forbidden");
         }
         if (repository.findById(fromAccountId).isEmpty() && repository.findById(toAccountId).isEmpty()) {
-            throw new NoSuchElementException("Account with this id do not exist");
+            throw new NoSuchElementException("Account do not exist");
         }
         Account fromAccount = repository.getReferenceById(fromAccountId);
         Account toAccount = repository.getReferenceById(fromAccountId);
