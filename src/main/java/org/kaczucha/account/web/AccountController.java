@@ -24,4 +24,10 @@ public class AccountController {
     public void createAccount(@RequestBody AccountRequest accountRequest) {
         service.save(accountRequest);
     }
+
+    @PatchMapping(path = "/api/withdraw")
+    @ResponseStatus(code = HttpStatus.ACCEPTED)
+    public void withdraw(@RequestParam Long id, @RequestParam double amount) {
+        service.withdraw(id,amount);
+    }
 }

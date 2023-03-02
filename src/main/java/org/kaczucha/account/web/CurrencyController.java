@@ -2,6 +2,7 @@ package org.kaczucha.account.web;
 
 import lombok.RequiredArgsConstructor;
 import org.kaczucha.account.application.dto.CurrencyResponse;
+import org.kaczucha.account.application.dto.ExchangeResponse;
 import org.kaczucha.account.application.port.CurrencyServiceUseCase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,15 +18,15 @@ public class CurrencyController {
     @Autowired
     private CurrencyServiceUseCase service;
 
-    @GetMapping(path = "/api/currency")
-    public ResponseEntity<CurrencyResponse> getRates() {
-        CurrencyResponse currencyRates = service.getCurrencyRates();
+    @GetMapping(path = "/api/latest")
+    public ResponseEntity<CurrencyResponse> getRates(@RequestParam String base) {
+        CurrencyResponse currencyRates = service.getCurrencyRates(base);
         return new ResponseEntity<>(currencyRates, HttpStatus.FOUND);
     }
 
     @GetMapping(path = "/api/convert")
-    public ResponseEntity<String> exchange(@RequestParam String from,@RequestParam String to,@RequestParam BigDecimal amount) {
-       String exchangeResponse = service.exchange(from, to, amount);
+    public ResponseEntity<ExchangeResponse> exchange(@RequestParam String from,@RequestParam String to,@RequestParam BigDecimal amount) {
+       ExchangeResponse exchangeResponse = service.exchange(from, to, amount);
         return new ResponseEntity<>(exchangeResponse, HttpStatus.ACCEPTED);
     }
 }
