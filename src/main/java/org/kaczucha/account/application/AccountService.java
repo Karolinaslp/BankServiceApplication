@@ -1,6 +1,7 @@
 package org.kaczucha.account.application;
 
 import lombok.RequiredArgsConstructor;
+import org.kaczucha.account.application.mapper.AccountMapper;
 import org.kaczucha.account.application.port.AccountServiceUseCase;
 import org.kaczucha.account.db.AccountJpaRepository;
 import org.kaczucha.account.domain.Account;

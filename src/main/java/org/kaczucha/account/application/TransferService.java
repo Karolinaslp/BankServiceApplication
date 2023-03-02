@@ -1,6 +1,7 @@
 package org.kaczucha.account.application;
 
 import lombok.RequiredArgsConstructor;
+import org.kaczucha.account.application.mapper.TransferMapper;
 import org.kaczucha.account.application.port.AccountServiceUseCase;
 import org.kaczucha.account.application.port.TransferServiceUseCase;
 import org.kaczucha.account.db.TransferJpaRepository;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Service;
 public class TransferService implements TransferServiceUseCase {
     private final TransferJpaRepository repository;
     private final AccountServiceUseCase service;
-
     private final TransferMapper mapper;
 
     @Override
