@@ -1,7 +1,9 @@
 package org.kaczucha.account.application;
 
 import lombok.RequiredArgsConstructor;
+import org.kaczucha.account.application.mapper.AccountMapper;
 import org.kaczucha.account.application.port.AccountServiceUseCase;
+import org.kaczucha.account.application.port.CurrencyServiceUseCase;
 import org.kaczucha.account.db.AccountJpaRepository;
 import org.kaczucha.account.domain.Account;
 import org.kaczucha.account.web.dto.AccountRequest;
@@ -9,12 +11,14 @@ import org.kaczucha.account.web.dto.AccountResponse;
 import org.kaczucha.exceptions.NotSufficientFundException;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
 public class AccountService implements AccountServiceUseCase {
     private final AccountJpaRepository repository;
+    private final CurrencyServiceUseCase currencyService;
     private final AccountMapper mapper;
 
     @Override
@@ -25,7 +29,8 @@ public class AccountService implements AccountServiceUseCase {
 
     @Override
     public AccountResponse findById(final long id) {
-        return repository.findById(id)
+        return repository
+                .findById(id)
                 .map(mapper::toAccountResponse)
                 .orElseThrow(() -> new IllegalArgumentException(String.format("Account with id: %d not found", id)));
     }
@@ -36,45 +41,56 @@ public class AccountService implements AccountServiceUseCase {
     }
 
     @Override
-    public void transfer(long fromAccountId, long toAccountId, double amount) {
+    public void transfer(long fromAccountId, long toAccountId, BigDecimal amount, String currency) {
         validateAmount(amount);
+        validateAccount(fromAccountId, toAccountId);
 
-        if (fromAccountId == toAccountId) {
-            throw new IllegalArgumentException("Transfer to the same account if forbidden");
-        }
-        if (repository.findById(fromAccountId).isEmpty() && repository.findById(toAccountId).isEmpty()) {
-            throw new NoSuchElementException("Account with this id do not exist");
-        }
         Account fromAccount = repository.getReferenceById(fromAccountId);
-        Account toAccount = repository.getReferenceById(fromAccountId);
+        Account toAccount = repository.getReferenceById(toAccountId);
 
-        if (fromAccount.getBalance() - amount >= 0) {
-            fromAccount.setBalance(fromAccount.getBalance() - amount);
-            toAccount.setBalance(toAccount.getBalance() + amount);
+        if (isNotEnoughFounds(fromAccount, amount)) {
+            throw new NotSufficientFundException("Not enough funds, to make transfer");
+        }
+
+        if (!fromAccount.getCurrency().equals(toAccount.getCurrency())) {
+            double result = currencyService.exchange(amount, fromAccount.getCurrency(), toAccount.getCurrency()).getResult();
+            fromAccount.setBalance(fromAccount.getBalance().subtract(amount));
+            toAccount.setBalance(toAccount.getBalance().add(BigDecimal.valueOf(result)));
+
         } else {
-            throw new NotSufficientFundException("not enough funds");
+            fromAccount.setBalance(fromAccount.getBalance().subtract(amount));
+            toAccount.setBalance(toAccount.getBalance().add(amount));
         }
         repository.save(fromAccount);
         repository.save(toAccount);
     }
 
-    public void validateAmount(double amount) {
-        if (amount <= 0) {
+    public void validateAccount(long fromAccountId, long toAccountId) {
+        if (fromAccountId == toAccountId) {
+            throw new IllegalArgumentException("Transfer to the same account if forbidden");
+        }
+        if (repository.findById(fromAccountId).isEmpty() || repository.findById(toAccountId).isEmpty()) {
+            throw new NoSuchElementException("At least one of the accounts does not exist");
+        }
+    }
+
+    public void validateAmount(BigDecimal amount) {
+        if (amount.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("Amount must be positive");
         }
     }
 
-    public void withdraw(long id, double amount) {
+    public static boolean isNotEnoughFounds(Account account, BigDecimal amount) {
+        return account.getBalance().compareTo(amount) < 0;
+    }
+
+    public void withdraw(long id, BigDecimal amount) {
         validateAmount(amount);
-        if (repository.findById(id).isEmpty()) {
-            throw new NoSuchElementException("Account with this id do not exist");
-        }
         Account account = repository.getReferenceById(id);
-        if (amount > account.getBalance()) {
+        if (isNotEnoughFounds(account, amount)) {
             throw new NotSufficientFundException("Balance must be equal or higher then amount");
         }
-        final double newBalance = account.getBalance() - amount;
-        account.setBalance(newBalance);
+        account.setBalance(account.getBalance().subtract(amount));
         repository.save(account);
     }
 }

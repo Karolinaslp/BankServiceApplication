@@ -1,4 +1,4 @@
-package org.kaczucha.account.application;
+package org.kaczucha.account.application.mapper;
 
 import org.kaczucha.account.domain.Transfer;
 import org.kaczucha.account.web.dto.TransferRequest;
