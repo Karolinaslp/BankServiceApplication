@@ -1,15 +1,15 @@
-package org.kaczucha.account.application.dto;
+package org.kaczucha.account.web.dto;
 
 import lombok.Data;
 
-import java.time.LocalDate;
+import java.math.BigDecimal;
 import java.util.Map;
 
 @Data
 public class CurrencyResponse {
     private String base;
-    private LocalDate date;
-    private Map<String, Double> rates;
+    private String date;
+    private Map<String, BigDecimal> rates;
     private boolean success;
     private long timestamp;
 

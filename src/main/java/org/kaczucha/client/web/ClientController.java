@@ -18,7 +18,7 @@ public class ClientController {
     @GetMapping(path = "/api/user")
     public ResponseEntity<ClientResponse> getByEmail(@RequestParam String email) {
         ClientResponse client = service.findResponseByEmail(email);
-        return new ResponseEntity<>(client, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(client, HttpStatus.OK);
     }
 
     @PostMapping(path = "/api/user")

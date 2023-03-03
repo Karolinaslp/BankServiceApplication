@@ -1,4 +1,4 @@
-package org.kaczucha.account.application.dto;
+package org.kaczucha.account.web.dto;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;

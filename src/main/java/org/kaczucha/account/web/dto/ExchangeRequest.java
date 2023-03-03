@@ -11,8 +11,8 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AccountRequest {
-    private Long userId;
-    private BigDecimal balance;
-    private String currency;
+public class ExchangeRequest {
+    private BigDecimal amount;
+    private String fromCurrency;
+    private String toCurrency;
 }

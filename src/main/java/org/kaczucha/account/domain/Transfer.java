@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
 @Entity
@@ -21,9 +22,10 @@ public class Transfer {
     @Column(name = "TRANSACTIONS_ID")
     private long id;
 
-    @Column(name = "AMOUNT")
-    private double amount;
-    @Column(name = "CURRENCY")
+    @Column(name = "AMOUNT", scale = 2)
+    private BigDecimal amount;
+
+    @Column(name = "CURRENCY", length = 3)
     private String currency;
 
     @Column(name = "TRANSACTION_DATE")
