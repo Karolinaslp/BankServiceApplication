@@ -21,6 +21,11 @@
         <junit-jupiter-api.version>5.8.2</junit-jupiter-api.version>
         <assertj-core.version>3.22.0</assertj-core.version>
         <mockito-core.version>4.5.1</mockito-core.version>
+        <jackson-datatype-jsr310.version>2.14.2</jackson-datatype-jsr310.version>
+        <HttpClient.version>1.1</HttpClient.version>
+        <http-client-ext.version>2.3.2</http-client-ext.version>
+        <h2.version>2.1.214</h2.version>
+        <junit-vintage-engine.version>5.8.2</junit-vintage-engine.version>
     </properties>
 
     <dependencies>
@@ -48,6 +53,16 @@
             <version>${lombok.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>1.6.9</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>6.2.0.Final</version>
+        </dependency>
+        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
             <version>${junit-jupiter-api.version}</version>
@@ -64,7 +79,7 @@
         <dependency>
             <groupId>org.junit.vintage</groupId>
             <artifactId>junit-vintage-engine</artifactId>
-            <version>5.8.2</version>
+            <version>${junit-vintage-engine.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -75,7 +90,7 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>2.1.214</version>
+            <version>${h2.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -83,9 +98,14 @@
             <artifactId>spring-context</artifactId>
         </dependency>
         <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+            <version>2.0.2</version>
+        </dependency>
+        <dependency>
             <groupId>io.github.nstdio</groupId>
             <artifactId>http-client-ext</artifactId>
-            <version>2.3.2</version>
+            <version>${http-client-ext.version}</version>
         </dependency>
         <dependency>
             <groupId>com.github.jalasoft</groupId>
@@ -95,12 +115,12 @@
         <dependency>
             <groupId>name.wramner.httpclient</groupId>
             <artifactId>HttpClient</artifactId>
-            <version>1.1</version>
+            <version>${HttpClient.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
-            <version>2.14.2</version>
+            <version>${jackson-datatype-jsr310.version}</version>
         </dependency>
     </dependencies>
 
