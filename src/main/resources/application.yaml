@@ -9,4 +9,4 @@ spring:
 
 currency-exchange:
   rates-url: "https://api.apilayer.com/exchangerates_data/latest?apikey=ZtmmALl5jsKkIGZn7Kb4fGXaT4iW7z9Z&base={base}"
-  exchange-url: "https://api.apilayer.com/exchangerates_data/convert?to={to}&from={from}&amount={amount}&apikey=ZtmmALl5jsKkIGZn7Kb4fGXaT4iW7z9Z"
+  exchange-url: "https://api.apilayer.com/exchangerates_data/convert?&amount={amount}&from={from}&to={to}&apikey=ZtmmALl5jsKkIGZn7Kb4fGXaT4iW7z9Z"
