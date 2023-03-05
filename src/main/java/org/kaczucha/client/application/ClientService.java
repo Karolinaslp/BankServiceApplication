@@ -51,7 +51,7 @@ public class ClientService implements ClientServiceUseCase {
 
 
     @Override
-    public void deleteByEmail(String email) {
-        clientRepository.deleteByEmail(email);
+    public void deleteById(Long id) {
+        clientRepository.deleteById(id);
     }
 }
