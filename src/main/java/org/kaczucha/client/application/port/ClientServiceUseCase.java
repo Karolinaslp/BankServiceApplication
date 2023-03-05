@@ -10,7 +10,7 @@ public interface ClientServiceUseCase {
 
     Client findByEmail(String email);
 
-    void deleteByEmail(String email);
+    void deleteById(Long id);
 
     ClientResponse findResponseByEmail(String email);
 }

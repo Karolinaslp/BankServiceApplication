@@ -14,5 +14,5 @@ public interface ClientJpaRepository extends JpaRepository<Client, Long> {
 
     Page<Client> findByNameIgnoreCase(String name, Pageable pageable);
 
-    void deleteByEmail(String email);
+    void deleteById(Long id);
 }

@@ -26,4 +26,10 @@ public class ClientController {
     public void addClient(@RequestBody ClientRequest client) throws ClientAlreadyExistsException {
         service.save(client);
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteById(@PathVariable Long id) {
+        service.deleteById(id);
+    }
 }
