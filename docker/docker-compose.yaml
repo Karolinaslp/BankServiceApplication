@@ -1,0 +1,14 @@
+version: 'v2.13.0'
+
+services:
+  db:
+    container_name: bankdb
+    image: postgres:15.1
+    restart: always
+    environment:
+      POSTGRES_DB: bank
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: qwerty
+    ports:
+      - 7433:5432
+

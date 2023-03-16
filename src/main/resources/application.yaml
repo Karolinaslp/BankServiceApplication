@@ -2,10 +2,15 @@ spring:
   datasource:
     username: "postgres"
     password: "qwerty"
-    url: "jdbc:postgresql://127.0.0.1:5432/test"
+    url: "jdbc:postgresql://localhost:7433/postgres"
     driver-class: "org.postgresql.Driver"
   jpa:
+    hibernate:
+      ddl-auto: create
     show-sql: false
+  sql:
+    init:
+      mode: always
 
 currency-exchange:
   rates-url: "https://api.apilayer.com/exchangerates_data/latest?apikey=ZtmmALl5jsKkIGZn7Kb4fGXaT4iW7z9Z&base={base}"
