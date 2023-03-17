@@ -1,4 +1,4 @@
-package org.kaczucha.account.web.dto;
+package org.karolina.account.web.dto;
 
 import lombok.Data;
 

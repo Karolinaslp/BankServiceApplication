@@ -1,7 +1,7 @@
-package org.kaczucha.account.application.mapper;
+package org.karolina.account.application.mapper;
 
-import org.kaczucha.account.domain.Transfer;
-import org.kaczucha.account.web.dto.TransferRequest;
+import org.karolina.account.domain.Transfer;
+import org.karolina.account.web.dto.TransferRequest;
 import org.springframework.stereotype.Component;
 
 import java.time.OffsetDateTime;

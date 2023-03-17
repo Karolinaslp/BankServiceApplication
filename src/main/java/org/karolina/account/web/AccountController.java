@@ -1,9 +1,9 @@
-package org.kaczucha.account.web;
+package org.karolina.account.web;
 
 import lombok.RequiredArgsConstructor;
-import org.kaczucha.account.application.port.AccountServiceUseCase;
-import org.kaczucha.account.web.dto.AccountRequest;
-import org.kaczucha.account.web.dto.AccountResponse;
+import org.karolina.account.application.port.AccountServiceUseCase;
+import org.karolina.account.web.dto.AccountRequest;
+import org.karolina.account.web.dto.AccountResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,24 +12,25 @@ import java.math.BigDecimal;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping(path = "/api/v1/account")
 public class AccountController {
     private final AccountServiceUseCase service;
 
-    @GetMapping(path = "/api/account")
-    public ResponseEntity<AccountResponse> getById(@RequestParam Long id) {
+    @GetMapping(path = "/{accountId}")
+    public ResponseEntity<AccountResponse> getById(@PathVariable(value = "accountId") Long id) {
         final AccountResponse account = service.findById(id);
         return new ResponseEntity<>(account, HttpStatus.OK);
     }
 
-    @PostMapping(path = "/api/account")
+    @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
     public void createAccount(@RequestBody AccountRequest accountRequest) {
         service.save(accountRequest);
     }
 
-    @PatchMapping(path = "/api/withdraw")
+    @PutMapping(path = "/{id}")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
-    public void withdraw(@RequestParam Long id, @RequestParam BigDecimal amount) {
+    public void withdraw(@PathVariable(value = "id") Long id, @RequestParam BigDecimal amount) {
         service.withdraw(id, amount);
     }
 }

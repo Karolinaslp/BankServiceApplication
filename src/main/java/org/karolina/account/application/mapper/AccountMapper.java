@@ -1,8 +1,8 @@
-package org.kaczucha.account.application.mapper;
+package org.karolina.account.application.mapper;
 
-import org.kaczucha.account.domain.Account;
-import org.kaczucha.account.web.dto.AccountRequest;
-import org.kaczucha.account.web.dto.AccountResponse;
+import org.karolina.account.domain.Account;
+import org.karolina.account.web.dto.AccountRequest;
+import org.karolina.account.web.dto.AccountResponse;
 import org.springframework.stereotype.Component;
 
 @Component

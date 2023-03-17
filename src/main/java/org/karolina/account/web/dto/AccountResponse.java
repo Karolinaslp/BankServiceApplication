@@ -1,4 +1,4 @@
-package org.kaczucha.account.web.dto;
+package org.karolina.account.web.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,8 +11,9 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AccountRequest {
-    private Long userId;
+public class AccountResponse {
+    private Long id;
     private BigDecimal balance;
     private String currency;
+    private Long userId;
 }

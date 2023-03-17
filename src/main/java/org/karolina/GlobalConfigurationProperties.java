@@ -1,4 +1,4 @@
-package org.kaczucha;
+package org.karolina;
 
 import lombok.Getter;
 import lombok.Setter;
