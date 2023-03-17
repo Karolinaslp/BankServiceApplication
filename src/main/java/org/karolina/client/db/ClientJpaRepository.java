@@ -1,14 +1,15 @@
-package org.kaczucha.client.db;
+package org.karolina.client.db;
 
-import org.kaczucha.client.domain.Client;
+import org.karolina.client.domain.Client;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ClientJpaRepository extends JpaRepository<Client, Long> {
-    Client findByEmailIgnoreCase(String email);
+    Optional<Client> findByEmailIgnoreCase(String email);
 
     List<Client> findByNameIgnoreCase(String name);
 

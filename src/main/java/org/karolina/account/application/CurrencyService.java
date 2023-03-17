@@ -1,12 +1,12 @@
-package org.kaczucha.account.application;
+package org.karolina.account.application;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.kaczucha.GlobalConfigurationProperties;
-import org.kaczucha.account.application.port.CurrencyServiceUseCase;
-import org.kaczucha.account.web.dto.CurrencyResponse;
-import org.kaczucha.account.web.dto.ExchangeResponse;
+import org.karolina.GlobalConfigurationProperties;
+import org.karolina.account.application.port.CurrencyServiceUseCase;
+import org.karolina.account.web.dto.CurrencyResponse;
+import org.karolina.account.web.dto.ExchangeResponse;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;

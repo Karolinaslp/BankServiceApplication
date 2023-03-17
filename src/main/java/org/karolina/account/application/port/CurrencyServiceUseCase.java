@@ -1,7 +1,7 @@
-package org.kaczucha.account.application.port;
+package org.karolina.account.application.port;
 
-import org.kaczucha.account.web.dto.CurrencyResponse;
-import org.kaczucha.account.web.dto.ExchangeResponse;
+import org.karolina.account.web.dto.CurrencyResponse;
+import org.karolina.account.web.dto.ExchangeResponse;
 
 import java.math.BigDecimal;
 

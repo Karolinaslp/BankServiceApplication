@@ -1,13 +1,13 @@
-package org.kaczucha.client.domain;
+package org.karolina.client.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.kaczucha.account.domain.Account;
+import org.karolina.account.domain.Account;
 
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "USERS")
@@ -24,11 +24,18 @@ public class Client {
     @Column(name = "FIRST_NAME")
     private String name;
 
-    @Column(name = "MAIL")
+    @Column(unique = true, name = "MAIL")
     private String email;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "USER_ID")
-    private List<Account> accounts;
+    private Set<Account> accounts;
 
+    public void removeAccounts() {
+        accounts.clear();
+    }
+
+    public void addAccount(Account account) {
+        accounts.add(account);
+    }
 }

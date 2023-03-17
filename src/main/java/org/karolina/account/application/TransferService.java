@@ -1,11 +1,11 @@
-package org.kaczucha.account.application;
+package org.karolina.account.application;
 
 import lombok.RequiredArgsConstructor;
-import org.kaczucha.account.application.mapper.TransferMapper;
-import org.kaczucha.account.application.port.AccountServiceUseCase;
-import org.kaczucha.account.application.port.TransferServiceUseCase;
-import org.kaczucha.account.db.TransferJpaRepository;
-import org.kaczucha.account.web.dto.TransferRequest;
+import org.karolina.account.application.mapper.TransferMapper;
+import org.karolina.account.application.port.AccountServiceUseCase;
+import org.karolina.account.application.port.TransferServiceUseCase;
+import org.karolina.account.db.TransferJpaRepository;
+import org.karolina.account.web.dto.TransferRequest;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -1,4 +1,4 @@
-package org.kaczucha.account.domain;
+package org.karolina.account.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

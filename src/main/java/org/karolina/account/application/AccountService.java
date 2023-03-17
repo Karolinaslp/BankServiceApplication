@@ -1,14 +1,14 @@
-package org.kaczucha.account.application;
+package org.karolina.account.application;
 
 import lombok.RequiredArgsConstructor;
-import org.kaczucha.account.application.mapper.AccountMapper;
-import org.kaczucha.account.application.port.AccountServiceUseCase;
-import org.kaczucha.account.application.port.CurrencyServiceUseCase;
-import org.kaczucha.account.db.AccountJpaRepository;
-import org.kaczucha.account.domain.Account;
-import org.kaczucha.account.web.dto.AccountRequest;
-import org.kaczucha.account.web.dto.AccountResponse;
-import org.kaczucha.exceptions.NotSufficientFundException;
+import org.karolina.account.application.mapper.AccountMapper;
+import org.karolina.account.application.port.AccountServiceUseCase;
+import org.karolina.account.application.port.CurrencyServiceUseCase;
+import org.karolina.account.db.AccountJpaRepository;
+import org.karolina.account.domain.Account;
+import org.karolina.account.web.dto.AccountRequest;
+import org.karolina.account.web.dto.AccountResponse;
+import org.karolina.exceptions.NotSufficientFundException;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
