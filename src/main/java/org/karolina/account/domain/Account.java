@@ -1,10 +1,7 @@
 package org.karolina.account.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 
@@ -30,4 +27,8 @@ public class Account {
     @Column(name = "USER_ID")
     private Long userId;
 
+    public Account(BigDecimal balance, String currency) {
+        this.balance = balance;
+        this.currency = currency;
+    }
 }

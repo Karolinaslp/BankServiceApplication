@@ -5,6 +5,7 @@ import org.karolina.account.application.mapper.AccountMapper;
 import org.karolina.account.application.port.AccountServiceUseCase;
 import org.karolina.account.application.port.CurrencyServiceUseCase;
 import org.karolina.account.db.AccountJpaRepository;
+import org.karolina.account.db.TransferJpaRepository;
 import org.karolina.account.domain.Account;
 import org.karolina.account.web.dto.AccountRequest;
 import org.karolina.account.web.dto.AccountResponse;
@@ -17,19 +18,20 @@ import java.util.NoSuchElementException;
 @Service
 @RequiredArgsConstructor
 public class AccountService implements AccountServiceUseCase {
-    private final AccountJpaRepository repository;
+    private final AccountJpaRepository accountRepository;
+    private final TransferJpaRepository transferRepository;
     private final CurrencyServiceUseCase currencyService;
     private final AccountMapper mapper;
 
     @Override
     public void save(final AccountRequest account) {
         Account mappedAccount = mapper.toAccount(account);
-        repository.save(mappedAccount);
+        accountRepository.save(mappedAccount);
     }
 
     @Override
     public AccountResponse findById(final long id) {
-        return repository
+        return accountRepository
                 .findById(id)
                 .map(mapper::toAccountResponse)
                 .orElseThrow(() -> new IllegalArgumentException(String.format("Account with id: %d not found", id)));
@@ -37,7 +39,7 @@ public class AccountService implements AccountServiceUseCase {
 
     @Override
     public void deleteById(Long id) {
-        repository.deleteById(id);
+        accountRepository.deleteById(id);
     }
 
     @Override
@@ -45,8 +47,8 @@ public class AccountService implements AccountServiceUseCase {
         validateAmount(amount);
         validateAccount(fromAccountId, toAccountId);
 
-        Account fromAccount = repository.getReferenceById(fromAccountId);
-        Account toAccount = repository.getReferenceById(toAccountId);
+        Account fromAccount = accountRepository.getReferenceById(fromAccountId);
+        Account toAccount = accountRepository.getReferenceById(toAccountId);
 
         if (isNotEnoughFounds(fromAccount, amount)) {
             throw new NotSufficientFundException("Not enough funds, to make transfer");
@@ -61,15 +63,15 @@ public class AccountService implements AccountServiceUseCase {
             fromAccount.setBalance(fromAccount.getBalance().subtract(amount));
             toAccount.setBalance(toAccount.getBalance().add(amount));
         }
-        repository.save(fromAccount);
-        repository.save(toAccount);
+        accountRepository.save(fromAccount);
+        accountRepository.save(toAccount);
     }
 
     public void validateAccount(long fromAccountId, long toAccountId) {
         if (fromAccountId == toAccountId) {
             throw new IllegalArgumentException("Transfer to the same account if forbidden");
         }
-        if (repository.findById(fromAccountId).isEmpty() || repository.findById(toAccountId).isEmpty()) {
+        if (accountRepository.findById(fromAccountId).isEmpty() || accountRepository.findById(toAccountId).isEmpty()) {
             throw new NoSuchElementException("At least one of the accounts does not exist");
         }
     }
@@ -86,11 +88,11 @@ public class AccountService implements AccountServiceUseCase {
 
     public void withdraw(long id, BigDecimal amount) {
         validateAmount(amount);
-        Account account = repository.getReferenceById(id);
+        Account account = accountRepository.getReferenceById(id);
         if (isNotEnoughFounds(account, amount)) {
             throw new NotSufficientFundException("Balance must be equal or higher then amount");
         }
         account.setBalance(account.getBalance().subtract(amount));
-        repository.save(account);
+        accountRepository.save(account);
     }
 }

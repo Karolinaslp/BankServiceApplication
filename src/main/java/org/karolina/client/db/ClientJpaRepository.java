@@ -9,9 +9,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ClientJpaRepository extends JpaRepository<Client, Long> {
-    Optional<Client> findByEmailIgnoreCase(String email);
+    Optional<Client> findByEmailToLowerCase(String email);
 
     List<Client> findByNameIgnoreCase(String name);
+
+    List<Client> getAllClients();
 
     Page<Client> findByNameIgnoreCase(String name, Pageable pageable);
 
