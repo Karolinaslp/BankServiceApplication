@@ -9,7 +9,6 @@ import org.karolina.client.db.ClientJpaRepository;
 import org.karolina.client.domain.Client;
 import org.karolina.client.web.dto.ClientRequest;
 import org.karolina.client.web.dto.ClientResponse;
-import org.karolina.exceptions.ClientAlreadyExistsException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,7 +26,7 @@ public class ClientService implements ClientServiceUseCase {
     private final ClientMapper clientMapper;
 
 
-    public void save(Client client) throws ClientAlreadyExistsException {
+    public void save(Client client) {
         clientRepository.save(client);
     }
 
@@ -42,7 +41,7 @@ public class ClientService implements ClientServiceUseCase {
     }
 
     public Optional<Client> findByEmail(String email) {
-        return clientRepository.findByEmailIgnoreCase(email);
+        return clientRepository.findByEmailToLowerCase(email.toLowerCase());
     }
 
     public ClientResponse findResponseByEmail(String email) {

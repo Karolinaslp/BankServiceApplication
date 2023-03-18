@@ -1,10 +1,7 @@
 package org.karolina.client.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.karolina.account.domain.Account;
 
 import java.util.Set;
@@ -30,6 +27,12 @@ public class Client {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "USER_ID")
     private Set<Account> accounts;
+
+    public Client(String name, String email, Set<Account> accounts) {
+        this.name = name;
+        this.email = email;
+        this.accounts = accounts;
+    }
 
     public void removeAccounts() {
         accounts.clear();
