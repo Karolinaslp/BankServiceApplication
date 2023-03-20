@@ -1,8 +1,6 @@
 package org.karolina.client.application.port;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Value;
+import lombok.*;
 import org.karolina.client.domain.Client;
 import org.karolina.client.web.dto.ClientRequest;
 import org.karolina.client.web.dto.ClientResponse;
@@ -19,7 +17,7 @@ public interface ClientServiceUseCase {
 
     void deleteById(Long id);
 
-    public List<Client> findAllClients();
+    List<Client> findAll();
 
     ClientResponse findResponseByEmail(String email);
 
