@@ -11,7 +11,7 @@ Bank Service is REST application build in Java 17 using the Spring Boot, Hiberna
 * [Setup](#setup)
 * [Project Status](#project-status)
 * [Room for Improvement](#room-for-improvement)
-* [Acknowledgements](#acknowledgements)
+* [Authors](#authors)
 
 ## General Information
 
