@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class ClientMapper {
-    public ClientResponse toResponseClient(Client client) {
+    public ClientResponse toClientResponse(Client client) {
         return ClientResponse
                 .builder()
                 .id(client.getId())
