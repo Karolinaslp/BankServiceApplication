@@ -19,6 +19,8 @@ public interface ClientServiceUseCase {
 
     List<Client> findAll();
 
+    ClientResponse findById(Long id);
+
     ClientResponse findResponseByEmail(String email);
 
     UpdateClientResponse updateClient(UpdateClientCommand command);

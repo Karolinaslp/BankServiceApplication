@@ -6,7 +6,7 @@ spring:
     driver-class: "org.postgresql.Driver"
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     show-sql: false
   sql:
     init:
@@ -15,3 +15,8 @@ spring:
 currency-exchange:
   rates-url: "https://api.apilayer.com/exchangerates_data/latest?apikey=ZtmmALl5jsKkIGZn7Kb4fGXaT4iW7z9Z&base={base}"
   exchange-url: "https://api.apilayer.com/exchangerates_data/convert?&amount={amount}&from={from}&to={to}&apikey=ZtmmALl5jsKkIGZn7Kb4fGXaT4iW7z9Z"
+
+mosquitto:
+  uri: tcp://localhost:1883
+  user: user
+  password: 12345678

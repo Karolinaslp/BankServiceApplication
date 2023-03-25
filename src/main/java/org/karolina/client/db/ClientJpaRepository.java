@@ -14,6 +14,8 @@ public interface ClientJpaRepository extends JpaRepository<Client, Long> {
 
     List<Client> findByNameIgnoreCase(String name);
 
+    Optional<Client> findById(Long id);
+
     @Query("SELECT DISTINCT c FROM Client c JOIN FETCH c.accounts")
     List<Client> findAllEager();
 

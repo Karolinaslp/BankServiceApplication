@@ -36,17 +36,26 @@ public class ClientService implements ClientServiceUseCase {
         save(mappedClient);
     }
 
-    public List<Client> findAllClients() {
-        return clientRepository.findAll();
+    @Override
+    public List<Client> findAll() {
+        return clientRepository.findAllEager();
     }
 
+    @Override
+    public ClientResponse findById(Long id) {
+        return clientRepository.findById(id)
+                .map(clientMapper::toClientResponse)
+                .orElseThrow(() -> new IllegalArgumentException(String.format("Client with id %d not found", id)));
+    }
+
+    @Override
     public Optional<Client> findByEmail(String email) {
-        return clientRepository.findByEmailToLowerCase(email.toLowerCase());
+        return clientRepository.findByEmailIgnoreCase(email.toLowerCase());
     }
 
     public ClientResponse findResponseByEmail(String email) {
         final Optional<Client> client = findByEmail(email);
-        return clientMapper.toResponseClient(client.orElseThrow());
+        return clientMapper.toClientResponse(client.orElseThrow());
     }
 
     @Override
@@ -58,7 +67,7 @@ public class ClientService implements ClientServiceUseCase {
                     updateFields(command, client);
                     return UpdateClientResponse.SUCCESS;
                 })
-                .orElseGet(() -> new UpdateClientResponse(false, Collections.singletonList("Client not found with id: comm" + command.getId()))
+                .orElseGet(() -> new UpdateClientResponse(false, Collections.singletonList("Client not found with id: " + command.getId()))
                 );
     }
 

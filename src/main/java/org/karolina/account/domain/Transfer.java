@@ -36,4 +36,8 @@ public class Transfer {
 
     @Column(name = "TO_ACCOUNT_ID")
     private long toAccountId;
+
+    @Builder.Default
+    @Column(name = "TRANSFER_STATUS")
+    TransferStatus status =  TransferStatus.NEW;
 }

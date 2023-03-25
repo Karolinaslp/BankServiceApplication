@@ -5,7 +5,9 @@ import org.karolina.account.application.mapper.TransferMapper;
 import org.karolina.account.application.port.AccountServiceUseCase;
 import org.karolina.account.application.port.TransferServiceUseCase;
 import org.karolina.account.db.TransferJpaRepository;
+import org.karolina.account.domain.Transfer;
 import org.karolina.account.web.dto.TransferRequest;
+import org.karolina.account.web.dto.TransferResponse;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,7 +18,7 @@ public class TransferService implements TransferServiceUseCase {
     private final TransferMapper mapper;
 
     @Override
-    public void createTransfer(TransferRequest request) {
+    public TransferResponse createTransfer(TransferRequest request) {
         service.transfer(
                 request.getFromAccountId(),
                 request.getToAccountId(),
@@ -24,6 +26,7 @@ public class TransferService implements TransferServiceUseCase {
                 request.getCurrency()
         );
 
-        repository.save(mapper.toTransfer(request));
+        Transfer transfer = repository.save(mapper.toTransfer(request));
+        return TransferResponse.success(transfer.getId());
     }
 }
