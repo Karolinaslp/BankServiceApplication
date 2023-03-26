@@ -19,8 +19,7 @@ Bank Service is REST application written in Java 17 using the Spring Boot framew
 The application uses a PostgreSQL database managed by Docker container and Maven as a build tool and dependency manager.
 Unit tests have been written using JUnit 5 framework.
 Application uses the Exchange Rates Data API to retrieve currency exchange rates.
-Additionally, I have implemented a notification system using the MQTT protocol which notifies the user after each transaction
-that an operation has been performed on their account.
+Additionally, I have implemented a notification system using the MQTT protocol, which automatically informs users of any operations performed on their account.
 
 ## Technologies Used
 
