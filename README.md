@@ -16,9 +16,11 @@ Bank Service is REST application build in Java 17 using the Spring Boot, Hiberna
 ## General Information
 
 Bank Service is REST application written in Java 17 using the Spring Boot framework and Hibernate as an ORM.
-The application uses a PostgreSQL database and Maven as a build tool and dependency manager.
+The application uses a PostgreSQL database managed by Docker container and Maven as a build tool and dependency manager.
 Unit tests have been written using JUnit 5 framework.
-Additionally, the application uses the Exchange Rates Data API to retrieve currency exchange rates.
+Application uses the Exchange Rates Data API to retrieve currency exchange rates.
+Additionally, I have implemented a notification system using the MQTT protocol which notifies the user after each transaction
+that an operation has been performed on their account.
 
 ## Technologies Used
 
@@ -30,6 +32,8 @@ Additionally, the application uses the Exchange Rates Data API to retrieve curre
 - Lombok 1.18.24
 - JUnit5 5.8.2
 - Mockito 4.5.1
+- Docker 
+- Eclipse Mosquitto 5.0
 
 ## Features
 
