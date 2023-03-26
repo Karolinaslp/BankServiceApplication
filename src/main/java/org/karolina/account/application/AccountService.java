@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.karolina.account.application.mapper.AccountMapper;
 import org.karolina.account.application.port.AccountServiceUseCase;
 import org.karolina.account.application.port.CurrencyServiceUseCase;
+import org.karolina.account.application.port.NotificationServiceUseCase;
 import org.karolina.account.db.AccountJpaRepository;
-import org.karolina.account.db.TransferJpaRepository;
 import org.karolina.account.domain.Account;
 import org.karolina.account.web.dto.AccountRequest;
 import org.karolina.account.web.dto.AccountResponse;
@@ -19,9 +19,9 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class AccountService implements AccountServiceUseCase {
     private final AccountJpaRepository accountRepository;
-    private final TransferJpaRepository transferRepository;
     private final CurrencyServiceUseCase currencyService;
     private final AccountMapper mapper;
+    private final NotificationServiceUseCase notificationSystem;
 
     @Override
     public void save(final AccountRequest account) {
@@ -65,6 +65,9 @@ public class AccountService implements AccountServiceUseCase {
         }
         accountRepository.save(fromAccount);
         accountRepository.save(toAccount);
+
+        notificationSystem.sendNotification("Transaction has been made on your account", fromAccountId);
+        notificationSystem.sendNotification("Transaction has been made on your account", toAccountId);
     }
 
     public void validateAccount(long fromAccountId, long toAccountId) {
@@ -86,13 +89,15 @@ public class AccountService implements AccountServiceUseCase {
         return account.getBalance().compareTo(amount) < 0;
     }
 
-    public void withdraw(long id, BigDecimal amount) {
+    public void withdraw(long accountId, BigDecimal amount) {
         validateAmount(amount);
-        Account account = accountRepository.getReferenceById(id);
+        Account account = accountRepository.getReferenceById(accountId);
         if (isNotEnoughFounds(account, amount)) {
             throw new NotSufficientFundException("Balance must be equal or higher then amount");
         }
         account.setBalance(account.getBalance().subtract(amount));
         accountRepository.save(account);
+
+        notificationSystem.sendNotification("Withdrawal:" + amount, accountId);
     }
 }
