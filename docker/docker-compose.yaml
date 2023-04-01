@@ -11,4 +11,16 @@ services:
       POSTGRES_PASSWORD: qwerty
     ports:
       - 7433:5432
+  mosquitto:
+   container_name: mqtt
+   image: eclipse-mosquitto
+   restart: always
+   volumes:
+     - ./config:/mosquitto/config
+     - ./config:/mosquitto/data
+     - ./config:/mosquitto/log
+   ports:
+     - 1883:1883
+     - 9001-9001
+
 
