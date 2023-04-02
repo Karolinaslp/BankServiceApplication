@@ -21,4 +21,8 @@ public class TransferResponse {
     public static TransferResponse failure(String... errors) {
         return new TransferResponse(false, null, Arrays.asList(errors));
     }
+
+    public Long getTransferId() {
+        return transferId;
+    }
 }
