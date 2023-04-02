@@ -1,7 +1,6 @@
 package org.karolina.account.web.dto;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
@@ -10,6 +9,8 @@ import java.math.BigDecimal;
 
 @Data
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor
 public class TransferRequest {
     @NotNull
     @DecimalMin("0,00")

@@ -5,5 +5,4 @@ import org.karolina.account.web.dto.TransferResponse;
 
 public interface TransferServiceUseCase {
     TransferResponse createTransfer(TransferRequest request);
-
 }

@@ -3,8 +3,10 @@ package org.karolina.account.application;
 import lombok.RequiredArgsConstructor;
 import org.karolina.account.application.mapper.AccountMapper;
 import org.karolina.account.application.port.AccountServiceUseCase;
-import org.karolina.account.application.port.CurrencyServiceUseCase;
 import org.karolina.account.application.port.NotificationServiceUseCase;
+import org.karolina.account.application.port.TransferStrategiesUseCase;
+import org.karolina.account.application.transfer.DifferentCurrencyTransferStrategy;
+import org.karolina.account.application.transfer.SameCurrencyTransferStrategy;
 import org.karolina.account.db.AccountJpaRepository;
 import org.karolina.account.domain.Account;
 import org.karolina.account.web.dto.AccountRequest;
@@ -19,9 +21,10 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class AccountService implements AccountServiceUseCase {
     private final AccountJpaRepository accountRepository;
-    private final CurrencyServiceUseCase currencyService;
     private final AccountMapper mapper;
     private final NotificationServiceUseCase notificationSystem;
+    private final SameCurrencyTransferStrategy sameCurrencyTransferStrategy;
+    private final DifferentCurrencyTransferStrategy differentCurrencyTransferStrategy;
 
     @Override
     public void save(final AccountRequest account) {
@@ -54,15 +57,14 @@ public class AccountService implements AccountServiceUseCase {
             throw new NotSufficientFundException("Not enough funds, to make transfer");
         }
 
-        if (!fromAccount.getCurrency().equals(toAccount.getCurrency())) {
-            double result = currencyService.exchange(amount, fromAccount.getCurrency(), toAccount.getCurrency()).getResult();
-            fromAccount.setBalance(fromAccount.getBalance().subtract(amount));
-            toAccount.setBalance(toAccount.getBalance().add(BigDecimal.valueOf(result)));
-
+        TransferStrategiesUseCase transferStrategy;
+        if (!fromAccount.getCurrency().equals(toAccount.getCurrency())){
+            transferStrategy = differentCurrencyTransferStrategy;
         } else {
-            fromAccount.setBalance(fromAccount.getBalance().subtract(amount));
-            toAccount.setBalance(toAccount.getBalance().add(amount));
+            transferStrategy = sameCurrencyTransferStrategy;
         }
+        transferStrategy.transfer(fromAccount,toAccount,amount,currency);
+
         accountRepository.save(fromAccount);
         accountRepository.save(toAccount);
 
@@ -70,7 +72,7 @@ public class AccountService implements AccountServiceUseCase {
         notificationSystem.sendNotification("Transaction has been made on your account", toAccountId);
     }
 
-    public void validateAccount(long fromAccountId, long toAccountId) {
+    private void validateAccount(long fromAccountId, long toAccountId) {
         if (fromAccountId == toAccountId) {
             throw new IllegalArgumentException("Transfer to the same account if forbidden");
         }
@@ -85,7 +87,7 @@ public class AccountService implements AccountServiceUseCase {
         }
     }
 
-    public static boolean isNotEnoughFounds(Account account, BigDecimal amount) {
+    private static boolean isNotEnoughFounds(Account account, BigDecimal amount) {
         return account.getBalance().compareTo(amount) < 0;
     }
 
